@@ -1,6 +1,6 @@
-# Hitachi air conditioner RAR-8P2
+# Hitachi air conditioner remote RAR-8P2
 
-from .remote import Remote
+from ..remote import Remote
 
 class Hitachi_RAR_8P2:
     format = {
@@ -74,7 +74,6 @@ class Hitachi_RAR_8P2:
             d |= 0x60
         else:
             raise ValueError('air_speed must be 1 to 5 or "auto"')
-
         data.append(d)
 
         if self.power:

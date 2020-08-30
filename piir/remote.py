@@ -1,4 +1,5 @@
-import json
+import json, os
+from time import time, sleep
 from io import IOBase
 from .encode import encode
 from .io import send
@@ -8,8 +9,9 @@ class Remote:
         self.gpio = gpio
         self.active_low = active_low
         self.duty_cycle = duty_cycle
+        self.last_sent = 0
 
-        if isinstance(data, str):
+        if isinstance(data, (str, os.PathLike)):
             data = open(data)
 
         if isinstance(data, IOBase):
@@ -63,6 +65,10 @@ class Remote:
         return pulses, gap, carrier
 
     def send_pulses(self, pulses, gap, carrier, times):
+        t = gap / 1e6 - (time() - self.last_sent)
+        if t > 0:
+            sleep(t)
+        self.last_sent = time()
         send(
             self.gpio,
             pulses,
