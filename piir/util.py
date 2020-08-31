@@ -32,3 +32,7 @@ def bytes_to_bits(data, format, bits=None):
                 return result
             byte >>= 1
     return result
+
+def hexify(data):
+    return ' '.join(f'{byte:02X}' for byte in data)
+

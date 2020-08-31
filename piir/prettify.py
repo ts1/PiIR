@@ -1,7 +1,4 @@
-from .util import bytes_to_bits, bits_to_bytes
-
-def hexify(data):
-    return ' '.join(f'{byte:02X}' for byte in data)
+from .util import bytes_to_bits, bits_to_bytes, hexify
 
 def most_frequent(xs):
     d = {}

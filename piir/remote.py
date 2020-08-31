@@ -26,7 +26,7 @@ class Remote:
         self.keys = data['keys']
         self.cache = {}
 
-    def restore_data(self, data):
+    def restore_data(self, data, restore_data=True):
         if not isinstance(data, list):
             data = [data]
         result = []
@@ -43,14 +43,15 @@ class Remote:
 
             r = self.formats[format].copy()
 
-            pre = r.get('pre_data')
-            if pre: r['pre_data'] = bytes.fromhex(pre)
+            if restore_data:
+                pre = r.get('pre_data')
+                if pre: r['pre_data'] = bytes.fromhex(pre)
 
-            post = r.get('post_data')
-            if post: r['post_data'] = bytes.fromhex(post)
+                post = r.get('post_data')
+                if post: r['post_data'] = bytes.fromhex(post)
 
-            if r.get('byte_by_byte_complement'):
-                d = bytes(sum(zip(d, (byte ^ 0xff for byte in d)), ()))
+                if r.get('byte_by_byte_complement'):
+                    d = bytes(sum(zip(d, (byte ^ 0xff for byte in d)), ()))
 
             r['data'] = d
 
