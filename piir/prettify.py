@@ -56,24 +56,23 @@ def remove_pre_post(keys, formats):
             f = part['format']
             format = formats[f]
 
+            pre_bits = post_bits = 0
             pre = format.get('pre_data', [])
             if pre:
                 pre_bits = format.get('pre_data_bits', 0)
-            else:
-                pre_bits = 0
 
             post = format.get('post_data', [])
             if post:
                 post_bits = format.get('post_data_bits', 0)
-            else:
-                post_bits = 0
-
 
             if not pre and not post:
                 continue
+
             if pre_bits or post_bits: # bitwise?
-                bits = bytes_to_bits(part['data'], format)
-                bits = bits[pre_bits:]
+                length = pre_bits + post_bits + format['bits']
+                bits = bytes_to_bits(part['data'], format, length)
+                if pre_bits:
+                    bits = bits[pre_bits:]
                 if post_bits:
                     bits = bits[:-post_bits]
                 part['data'] = bits_to_bytes(bits, format.get('msb_first'))
@@ -163,9 +162,6 @@ def prettify(raw_keys):
                     f_index = i
                     break
             else:
-                if formats:
-                    print(formats[0])
-                    print(format)
                 formats.append(format)
                 f_index = len(formats) - 1
                 timebases.append([])
