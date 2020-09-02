@@ -221,7 +221,7 @@ def decode_raw(pulses):
 def decode(
     pulses,
     min_gap = 15_000,
-    tolerance = 0.15,
+    tolerance = 0.2,
     min_pulses = 10,
 ):
     if len(pulses) < min_pulses:

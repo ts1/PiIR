@@ -7,11 +7,11 @@ from .prettify import prettify
 from .remote import Remote
 
 def do_receive(args):
-    return receive(args.gpio)
+    return receive(args.gpio, glitch=args.glitch, timeout=args.timeout)
 
 def receive_and_decode(args):
     while True:
-        data = decode(do_receive(args), tolerance=args.tolerance / 100)
+        data = decode(do_receive(args), tolerance=args.tolerance)
         if data:
             return data
 
@@ -87,12 +87,26 @@ def main():
 
     decode_parser = ArgumentParser(add_help=False)
     decode_parser.add_argument(
+        '--glitch',
+        help = 'Ignore glitch shorter than N microseconds (default 100)',
+        metavar = 'N',
+        type = int,
+        default = 100,
+    )
+    decode_parser.add_argument(
+        '--timeout',
+        help = 'Timeout after N milliseconds of silence (default 100)',
+        metavar = 'N',
+        type = int,
+        default = 100,
+    )
+    decode_parser.add_argument(
         '-t',
         '--tolerance',
-        help = 'Tolerance in percent (default 20)',
+        help = 'Timing tolerance for decoding (default 0.2)',
         metavar = 'N',
         type = float,
-        default = 20,
+        default = .2,
     )
 
     file_parser = ArgumentParser(add_help=False)

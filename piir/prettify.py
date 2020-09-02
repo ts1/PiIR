@@ -26,7 +26,7 @@ def find_pre_post(format, data):
             if pre[i] != d[i]:
                 pre = pre[:i]
                 break
-        for i in range(1, len(post)):
+        for i in range(1, len(post)+1):
             if post[-i] != d[-i]:
                 if i > 1:
                     post = post[-i+1:]
@@ -34,8 +34,8 @@ def find_pre_post(format, data):
                     post = []
                 break
 
-    if len(pre) == len(data[0]):
-        return
+    if len(pre) == len(data[0]): return
+    if len(post) == len(data[0]): return
 
     if bitwise:
         if pre:
