@@ -37,14 +37,13 @@ def record(args):
     keys = {}
     if os.path.exists(args.file):
         remote = Remote(args.file, None)
-        for name, data in remote.keys.items():
-            keys[name] = remote.restore_data(data)
+        keys = remote.unprettify()
     if args.keys:
         for name in args.keys:
             keys[name] = record_key(args, name)
     else:
         while True:
-            name = input('Name of the key (blank to finish):')
+            name = input('Name of the key (blank to finish): ')
             if not name:
                 break
             keys[name] = record_key(args, name)

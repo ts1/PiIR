@@ -160,8 +160,8 @@ def decode_ppm(pulses, msb_first=False):
     return dict(
         preamble = preamble,
         coding = 'ppm',
-        zero = zero,
-        one = one,
+        zero = list(zero),
+        one = list(one),
         byte_separator = byte_separator,
         msb_first = msb_first,
         bits = len(bits),
@@ -207,8 +207,8 @@ def decode_manchester(
     return dict(
         preamble = preamble,
         coding = 'manchester',
-        zero = zero,
-        one = one,
+        zero = list(zero),
+        one = list(one),
         long_bit = long_bit,
         msb_first = msb_first,
         bits = len(bits),

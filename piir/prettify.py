@@ -163,6 +163,9 @@ def prettify(raw_keys):
                     f_index = i
                     break
             else:
+                if formats:
+                    print(formats[0])
+                    print(format)
                 formats.append(format)
                 f_index = len(formats) - 1
                 timebases.append([])

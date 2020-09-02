@@ -10,7 +10,7 @@ test_vector = [
     1665 611 1609 615 1645 600 530 610 1665 585 1640 610 1640 610 1665 585
     39985 9125 2220 610 96355 9170 2245 590 96336 9189 2196 605''',
 
-    [{'preamble': [16, 8], 'coding': 'ppm', 'zero': (1, 1), 'one': (1, 3), 'byte_separator': None, 'msb_first': False, 'bits': 32, 'data': b'\x80\x7f\x08\xf7', 'postamble': [1], 'timebase': 570, 'gap': 96000}]
+    [{'preamble': [16, 8], 'coding': 'ppm', 'zero': [1, 1], 'one': [1, 3], 'byte_separator': None, 'msb_first': False, 'bits': 32, 'data': b'\x80\x7f\x08\xf7', 'postamble': [1], 'timebase': 570, 'gap': 96000}]
 ], 
 
 # Panasonic Light (AEHA)
@@ -26,7 +26,7 @@ test_vector = [
     490 375 490 1250 490 375 466 404 490 375 490 375 465 1280 485 375 490 380
     465 1270 490 375 490 380 490''',
 
-    [{'preamble': [8, 4], 'coding': 'ppm', 'zero': (1, 1), 'one': (1, 3), 'byte_separator': None, 'msb_first': False, 'bits': 40, 'data': b',R\t-$', 'postamble': [1], 'timebase': 430, 'gap': 75000}]
+    [{'preamble': [8, 4], 'coding': 'ppm', 'zero': [1, 1], 'one': [1, 3], 'byte_separator': None, 'msb_first': False, 'bits': 40, 'data': b',R\t-$', 'postamble': [1], 'timebase': 430, 'gap': 75000}]
 ],
 
 # Hitach Air Conditioner (AEHA like)
@@ -85,7 +85,7 @@ test_vector = [
     1226 449 1230 450 385 445 390 451 384 450 390 450 385 450 390 450 386 
     449 390 450''',
 
-    [{'preamble': [8, 4], 'coding': 'ppm', 'zero': (1, 1), 'one': (1, 3), 'byte_separator': None, 'msb_first': False, 'bits': 424, 'data': b'\x01\x10\x00@\xbf\xff\x00\xcc3\xa3\\\x13\xec`\x9f\x00\xff\x00\xff\x00\xff\x00\xff\x00\xffS\xac\xf1\x0e\x00\xff\x00\xff\x88w\x03\xfc\x01\xfe\x88w\x00\xff\x00\xff\xff\x00\xff\x00\xff\x00\xff\x00', 'postamble': [1], 'timebase': 420, 'gap': 49000}]
+    [{'preamble': [8, 4], 'coding': 'ppm', 'zero': [1, 1], 'one': [1, 3], 'byte_separator': None, 'msb_first': False, 'bits': 424, 'data': b'\x01\x10\x00@\xbf\xff\x00\xcc3\xa3\\\x13\xec`\x9f\x00\xff\x00\xff\x00\xff\x00\xff\x00\xffS\xac\xf1\x0e\x00\xff\x00\xff\x88w\x03\xfc\x01\xfe\x88w\x00\xff\x00\xff\xff\x00\xff\x00\xff\x00\xff\x00', 'postamble': [1], 'timebase': 420, 'gap': 49000}]
 ],
 
 # Philips DVD (RC6)
@@ -96,7 +96,7 @@ test_vector = [
     495 355 925 785 495 350 496 359 490 350 925 785 931 349 495 785 485 360
     495''',
 
-    [{'preamble': [6, 2, 1, 1], 'coding': 'manchester', 'zero': (0, 1), 'one': (1, 0), 'long_bit': 3, 'msb_first': True, 'bits': 20, 'data': b'\x10B\xc0', 'timebase': 420, 'gap': 88000}]
+    [{'preamble': [6, 2, 1, 1], 'coding': 'manchester', 'zero': [0, 1], 'one': [1, 0], 'long_bit': 3, 'msb_first': True, 'bits': 20, 'data': b'\x10B\xc0', 'timebase': 420, 'gap': 88000}]
 ],
 
 # Sony TV
@@ -107,7 +107,7 @@ test_vector = [
     560 635 26010 2430 575 1235 540 635 565 1235 555 635 550 1230 560 635 
     560 640 560 1235 540 635 565 635 560 635 565 660''',
 
-    [{'preamble': [4], 'coding': 'ppm', 'zero': (1, 1), 'one': (1, 2), 'byte_separator': None, 'msb_first': False, 'bits': 12, 'data': b'\x95\x00', 'postamble': [], 'timebase': 600, 'gap': 26000}]
+    [{'preamble': [4], 'coding': 'ppm', 'zero': [1, 1], 'one': [1, 2], 'byte_separator': None, 'msb_first': False, 'bits': 12, 'data': b'\x95\x00', 'postamble': [], 'timebase': 600, 'gap': 26000}]
 ],
 
 # Mitsubishi BD
@@ -120,7 +120,7 @@ test_vector = [
     470 550 475 550 470 555 1505 555 1525 550 1510 560 1520 550 4085 556 
     449 555 1525 555 465 555 475 550 455 550 470 555 470 550 455 555''',
 
-    [{'preamble': [16, 8], 'coding': 'ppm', 'zero': (1, 1), 'one': (1, 3), 'byte_separator': (1, 8), 'msb_first': False, 'bits': 16, 'data': b'\xf1\x02', 'postamble': [1], 'timebase': 510, 'gap': 22000}]
+    [{'preamble': [16, 8], 'coding': 'ppm', 'zero': [1, 1], 'one': [1, 3], 'byte_separator': (1, 8), 'msb_first': False, 'bits': 16, 'data': b'\xf1\x02', 'postamble': [1], 'timebase': 510, 'gap': 22000}]
 ],
 
 # The following is taken (and slightly modified) from raw codes in
@@ -136,7 +136,7 @@ test_vector = [
               322     732     325    1788     320     733
               326
     ''',
-    [{'preamble': [], 'coding': 'ppm', 'zero': (1, 2), 'one': (1, 5), 'byte_separator': None, 'msb_first': False, 'bits': 15, 'data': b'\x03%', 'postamble': [1], 'timebase': 350, 'gap': None}]
+    [{'preamble': [], 'coding': 'ppm', 'zero': [1, 2], 'one': [1, 5], 'byte_separator': None, 'msb_first': False, 'bits': 15, 'data': b'\x03%', 'postamble': [1], 'timebase': 350, 'gap': None}]
 ],
 
 # RC5
@@ -147,7 +147,7 @@ test_vector = [
               928    1729     929     842    1817     841
               930
     ''',
-    [{'preamble': [1], 'coding': 'manchester', 'zero': (1, 0), 'one': (0, 1), 'long_bit': None, 'msb_first': True, 'bits': 13, 'data': b'\xa8`', 'timebase': 890, 'gap': None}]
+    [{'preamble': [1], 'coding': 'manchester', 'zero': [1, 0], 'one': [0, 1], 'long_bit': None, 'msb_first': True, 'bits': 13, 'data': b'\xa8`', 'timebase': 890, 'gap': None}]
 ],
 
 # NOKIA
@@ -165,7 +165,7 @@ test_vector = [
              1037     947    1037     948     564     432
              1037     948     569
     ''',
-    [{'preamble': [1, 5, 1, 1], 'coding': 'manchester', 'zero': (0, 1), 'one': (1, 0), 'long_bit': None, 'msb_first': False, 'bits': 16, 'data': b'\xfe\xff', 'timebase': 500, 'gap': 20000}, {'preamble': [1, 5, 1, 1], 'coding': 'manchester', 'zero': (0, 1), 'one': (1, 0), 'long_bit': None, 'msb_first': False, 'bits': 16, 'data': b'\x00J', 'timebase': 500, 'gap': 20000}]
+    [{'preamble': [1, 5, 1, 1], 'coding': 'manchester', 'zero': [0, 1], 'one': [1, 0], 'long_bit': None, 'msb_first': False, 'bits': 16, 'data': b'\xfe\xff', 'timebase': 500, 'gap': 20000}, {'preamble': [1, 5, 1, 1], 'coding': 'manchester', 'zero': [0, 1], 'one': [1, 0], 'long_bit': None, 'msb_first': False, 'bits': 16, 'data': b'\x00J', 'timebase': 500, 'gap': 20000}]
 ]]
 
 @pytest.mark.parametrize("pulses, expected", test_vector)

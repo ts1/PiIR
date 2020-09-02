@@ -3,6 +3,7 @@ from time import time, sleep
 from io import IOBase
 from .encode import encode
 from .io import send
+from .util import bytes_to_bits, bits_to_bytes
 
 class Remote:
     def __init__(self, data, gpio, active_low=False, duty_cycle=None):
@@ -93,3 +94,40 @@ class Remote:
             pulses, gap, carrier = self.encode(data)
             self.cache[key] = pulses, gap, carrier
         self.send_pulses(pulses, gap, carrier, times)
+
+    def unprettify(self):
+        result = {}
+        for name, data in self.keys.items():
+            parts = self.restore_data(data)
+            r_parts = []
+            for part in parts:
+                bits = []
+
+                pre = part.get('pre_data')
+                if pre:
+                    bits += bytes_to_bits(
+                        pre,
+                        part,
+                        part.get('pre_data_bits'),
+                    )
+
+                bits += bytes_to_bits(part['data'], part)
+
+                post = part.get('post_data')
+                if post:
+                    bits += bytes_to_bits(
+                        post,
+                        part,
+                        part.get('post_data_bits'),
+                    )
+
+                r = part.copy()
+                r['data'] = bits_to_bytes(bits, part.get('msb_first'))
+                r.pop('pre_data', None)
+                r.pop('pre_data_bits', None)
+                r.pop('post_data', None)
+                r.pop('post_data_bits', None)
+                r.pop('byte_by_byte_complement', None)
+                r_parts.append(r)
+            result[name] = r_parts
+        return result
