@@ -123,6 +123,11 @@ class Remote:
 
                 r = part.copy()
                 r['data'] = bits_to_bytes(bits, part.get('msb_first'))
+                r['bits'] = (
+                    part.get('pre_data_bits', 0) +
+                    part.get('bits', len(part['data']) * 8) +
+                    part.get('post_data_bits', 0)
+                )
                 r.pop('pre_data', None)
                 r.pop('pre_data_bits', None)
                 r.pop('post_data', None)

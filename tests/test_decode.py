@@ -173,3 +173,11 @@ def test_decode(pulses, expected):
     pulses = [int(x) for x in pulses.strip().split()]
     decoded = piir.decode(pulses)
     assert decoded == expected
+
+@pytest.mark.parametrize("_, data", test_vector)
+def test_encode(_, data):
+    encoded = piir.encode(data)
+    decoded = piir.decode(encoded)
+    for a, b in zip(decoded, data):
+        a['gap'] = b['gap']
+    assert decoded == data
