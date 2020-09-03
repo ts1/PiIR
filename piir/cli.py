@@ -36,6 +36,7 @@ def record_key(args, name):
 def record(args):
     keys = {}
     if os.path.exists(args.file):
+        print(f'Loading "{args.file}".')
         remote = Remote(args.file, None)
         keys = remote.unprettify()
     if args.keys:
