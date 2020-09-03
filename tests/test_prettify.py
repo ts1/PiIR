@@ -67,7 +67,32 @@ prettified2 = {
 
 set2 = [intermediate2, prettified2]
 
-sets = [set1, set2]
+intermediate3 = {
+    '1': [{"coding": "raw", "data": [4, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1], "timebase": 600, "gap": 26000}],
+    '2': [{"coding": "raw", "data": [4, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1], "timebase": 590, "gap": 26000}],
+    '3': [{"coding": "raw", "data": [4, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1], "timebase": 600, "gap": 26000}],
+    '4': [{"coding": "raw", "data": [4, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1], "timebase": 600, "gap": 26000}],
+}
+
+prettified3 = {
+ 'format': {'coding': 'raw',
+            'gap': 26000,
+            'post_data': [1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+            'pre_data': [4, 1, 2, 1],
+            'timebase': 600},
+ 'keys': {'1': [[1, 1, 2, 1, 1, 1, 2, 1, 1]],
+          '2': [[2, 1, 2, 1, 1, 1, 2, 1, 1]],
+          '3': [[1, 1, 2, 1, 1, 1, 1, 1, 2]],
+          '4': [[2, 1, 1, 1, 2, 1, 1, 1, 1]]}
+}
+
+set3 = [intermediate3, prettified3]
+
+sets = [
+    [intermediate1, prettified1],
+    [intermediate2, prettified2],
+    [intermediate3, prettified3],
+]
 
 @pytest.mark.parametrize("intermediate, prettified", sets)
 def test_prettify(intermediate, prettified):

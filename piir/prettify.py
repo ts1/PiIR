@@ -119,11 +119,14 @@ def remove_complement(keys, formats):
                 continue
             part['data'] = part['data'][::2]
 
-def prettify_keys(keys):
+def prettify_keys(keys, formats):
     result = {}
     for name, data in keys.items():
         parts = []
+        is_raw = True
         for part in data:
+            if formats[part['format']]['coding'] != 'raw':
+                is_raw = False
             d = part['data']
             if isinstance(d, bytes):
                 d = hexify(d)
@@ -131,7 +134,7 @@ def prettify_keys(keys):
             if part['format'] == 0:
                 part = part['data']
             parts.append(part)
-        if len(parts) == 1:
+        if len(parts) == 1 and not is_raw:
             parts = parts[0]
         result[name] = parts
     return result
@@ -183,20 +186,21 @@ def prettify(raw_keys):
 
     remove_complement(keys, formats)
 
-    keys = prettify_keys(keys)
+    keys = prettify_keys(keys, formats)
 
     for i, format in enumerate(formats):
         format['timebase'] = most_frequent(timebases[i])
         if gaps[i]:
             format['gap'] = most_frequent(gaps[i])
 
-        pre = format.get('pre_data')
-        if pre:
-            format['pre_data'] = hexify(pre)
+        if format['coding'] != 'raw':
+            pre = format.get('pre_data')
+            if pre:
+                format['pre_data'] = hexify(pre)
 
-        post = format.get('post_data')
-        if post:
-            format['post_data'] = hexify(post)
+            post = format.get('post_data')
+            if post:
+                format['post_data'] = hexify(post)
 
     if len(formats) == 1:
         return dict(format=formats[0], keys=keys)

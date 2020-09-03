@@ -44,7 +44,7 @@ class Remote:
 
             r = self.formats[format].copy()
 
-            if restore_data:
+            if restore_data and r['coding'] != 'raw':
                 pre = r.get('pre_data')
                 if pre: r['pre_data'] = bytes.fromhex(pre)
 
@@ -101,33 +101,40 @@ class Remote:
             parts = self.restore_data(data)
             r_parts = []
             for part in parts:
-                bits = []
-
-                pre = part.get('pre_data')
-                if pre:
-                    bits += bytes_to_bits(
-                        pre,
-                        part,
-                        part.get('pre_data_bits'),
-                    )
-
-                bits += bytes_to_bits(part['data'], part)
-
-                post = part.get('post_data')
-                if post:
-                    bits += bytes_to_bits(
-                        post,
-                        part,
-                        part.get('post_data_bits'),
-                    )
-
                 r = part.copy()
-                r['data'] = bits_to_bytes(bits, part.get('msb_first'))
-                r['bits'] = (
-                    part.get('pre_data_bits', 0) +
-                    part.get('bits', len(part['data']) * 8) +
-                    part.get('post_data_bits', 0)
-                )
+                if part['coding'] == 'raw':
+                    r['data'] = (
+                        part.get('pre_data', []) +
+                        part['data'] +
+                        part.get('post_data', [])
+                    )
+                else:
+                    bits = []
+
+                    pre = part.get('pre_data')
+                    if pre:
+                        bits += bytes_to_bits(
+                            pre,
+                            part,
+                            part.get('pre_data_bits'),
+                        )
+
+                    bits += bytes_to_bits(part['data'], part)
+
+                    post = part.get('post_data')
+                    if post:
+                        bits += bytes_to_bits(
+                            post,
+                            part,
+                            part.get('post_data_bits'),
+                        )
+
+                    r['data'] = bits_to_bytes(bits, part.get('msb_first'))
+                    r['bits'] = (
+                        part.get('pre_data_bits', 0) +
+                        part.get('bits', len(part['data']) * 8) +
+                        part.get('post_data_bits', 0)
+                    )
                 r.pop('pre_data', None)
                 r.pop('pre_data_bits', None)
                 r.pop('post_data', None)
