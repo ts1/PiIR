@@ -21,7 +21,7 @@ Some code are taken from its sample program `irrp.py`.
 
 ## Installation
 ```
-sudo pip3 install git+https://github.com/ts1/PiIR.git
+sudo pip3 install PiIR
 ```
 
 Start pigpio daemon.
