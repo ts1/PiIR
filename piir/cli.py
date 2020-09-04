@@ -11,7 +11,12 @@ def do_receive(args):
 
 def receive_and_decode(args):
     while True:
-        data = decode(do_receive(args), tolerance=args.tolerance)
+        data = decode(
+            do_receive(args),
+            tolerance = args.tolerance,
+            min_gap = args.gap * 1000,
+            min_pulses = args.pulses,
+        )
         if data:
             return data
 
@@ -108,6 +113,20 @@ def main():
         metavar = 'N',
         type = float,
         default = .2,
+    )
+    decode_parser.add_argument(
+        '--gap',
+        help = 'Minimum gap between data in milliseconds (default 15)',
+        metavar = 'N',
+        type = int,
+        default = 15,
+    )
+    decode_parser.add_argument(
+        '--pulses',
+        help = 'Ignore signal with number of pulses less than N (default 10)',
+        metavar = 'N',
+        type = int,
+        default = 10,
     )
 
     file_parser = ArgumentParser(add_help=False)
