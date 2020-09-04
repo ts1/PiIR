@@ -41,7 +41,7 @@ def record_key(args, name):
 def record(args):
     keys = {}
     if os.path.exists(args.file):
-        print(f'Loading "{args.file}".')
+        print(f'Loading "{args.file}"...')
         remote = Remote(args.file, None)
         keys = remote.unprettify()
     if args.keys:
@@ -53,13 +53,19 @@ def record(args):
             if not name:
                 break
             keys[name] = record_key(args, name)
-    json.dump(prettify(keys), open(args.file, 'w', encoding='utf8'), indent=2)
+    data = prettify(keys, carrier=int(round(args.carrier * 1000)))
+    json.dump(data, open(args.file, 'w', encoding='utf8'), indent=2)
     print(f'Saved to "{args.file}".')
 
 def play(args):
-    remote = Remote(args.file, args.gpio)
+    remote = Remote(
+        args.file,
+        args.gpio,
+        active_low = args.active_low,
+        duty_cycle = args.duty_cycle,
+    )
     for key in args.keys:
-        remote.send(key)
+        remote.send(key, repeat=args.repeat)
 
 def dump(args):
     keys = {}
@@ -87,6 +93,7 @@ def main():
         '-g',
         '--gpio',
         help = 'GPIO to use',
+        metavar = 'N',
         type = int,
         required = True,
     )
@@ -110,7 +117,7 @@ def main():
         '-t',
         '--tolerance',
         help = 'Timing tolerance for decoding (default 0.2)',
-        metavar = 'N',
+        metavar = 'F',
         type = float,
         default = .2,
     )
@@ -155,10 +162,20 @@ def main():
         metavar = 'KEY',
         help = 'Name of keys',
     )
+    record_parser.add_argument(
+        '-c',
+        '--carrier',
+        metavar = 'F',
+        type = float,
+        default = 38,
+        help = 'Frequency of carrier wave in KHz (default 38). '
+            'NOTE: This option does not affect receiving/decoding, '
+            'but is recorded in the file.',
+    )
 
     play_parser = subparsers.add_parser(
         'play',
-        help = 'Play IR to file',
+        help = 'Play IR from file',
         parents = [common_parser, file_parser],
     )
     play_parser.set_defaults(func=play)
@@ -168,6 +185,27 @@ def main():
         metavar = 'KEY',
         help = 'Name of keys',
     )
+    play_parser.add_argument(
+        '-r',
+        '--repeat',
+        metavar = 'N',
+        type = int,
+        help = 'Repeat sending each key N times (default 1)',
+    )
+    play_parser.add_argument(
+        '-l',
+        '--active-low',
+        action = 'store_true',
+        help = 'Drive LED as active low',
+    )
+    play_parser.add_argument(
+        '-d',
+        '--duty-cycle',
+        metavar = 'F',
+        type = float,
+        default = 1/2,
+        help = 'Duty cycle of carrier wave (default 0.5)',
+    )
 
     dump_parser = subparsers.add_parser(
         'dump',
@@ -175,14 +213,14 @@ def main():
         parents = [common_parser, decode_parser],
     )
     dump_parser.set_defaults(func=dump)
-    mode = dump_parser.add_mutually_exclusive_group()
-    mode.add_argument(
+    dump_mode = dump_parser.add_mutually_exclusive_group()
+    dump_mode.add_argument(
         '-r',
         '--raw',
         action = 'store_true',
         help = 'Print raw pulses',
     )
-    mode.add_argument(
+    dump_mode.add_argument(
         '-i',
         '--intermediate',
         action = 'store_true',

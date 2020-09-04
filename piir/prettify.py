@@ -139,7 +139,7 @@ def prettify_keys(keys, formats):
         result[name] = parts
     return result
 
-def prettify(raw_keys):
+def prettify(raw_keys, carrier=38_000):
     formats = []
     timebases = []
     gaps = []
@@ -201,6 +201,8 @@ def prettify(raw_keys):
             post = format.get('post_data')
             if post:
                 format['post_data'] = hexify(post)
+
+        format['carrier'] = carrier
 
     if len(formats) == 1:
         return dict(format=formats[0], keys=keys)

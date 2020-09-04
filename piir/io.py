@@ -49,12 +49,12 @@ def send(
     active_low = False,
     carrier = None,
     duty_cycle = None,
-    times = None,
+    repeat = None,
     gap = None,
 ):
     carrier = carrier or 38_000
     duty_cycle = duty_cycle or 1/2
-    times = times or 1
+    repeat = repeat or 1
     gap = gap or 50_000
 
     def generate_carrier(length):
@@ -107,7 +107,7 @@ def send(
         while pi.wave_tx_busy():
             sleep(0.001)
         n += 1
-        if n >= times:
+        if n >= repeat:
             break
         sleep(gap * 1e-6)
 

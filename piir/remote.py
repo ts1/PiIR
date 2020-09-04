@@ -66,7 +66,7 @@ class Remote:
         carrier = data[-1].get('carrier')
         return pulses, gap, carrier
 
-    def send_pulses(self, pulses, gap, carrier, times):
+    def send_pulses(self, pulses, gap, carrier, repeat):
         t = gap / 1e6 - (time() - self.last_sent)
         if t > 0:
             sleep(t)
@@ -77,15 +77,15 @@ class Remote:
             active_low = self.active_low,
             duty_cycle = self.duty_cycle,
             carrier = carrier,
-            times = times,
+            repeat = repeat,
             gap = gap,
         )
 
-    def send_data(self, data, times=1):
+    def send_data(self, data, repeat=1):
         pulses, gap, carrier = self.encode(data)
-        self.send_pulses(pulses, gap, carrier, times)
+        self.send_pulses(pulses, gap, carrier, repeat)
 
-    def send(self, key, times=1):
+    def send(self, key, repeat=1):
         data = self.keys[key]
         cache = self.cache.get(key)
         if cache:
@@ -93,7 +93,7 @@ class Remote:
         else:
             pulses, gap, carrier = self.encode(data)
             self.cache[key] = pulses, gap, carrier
-        self.send_pulses(pulses, gap, carrier, times)
+        self.send_pulses(pulses, gap, carrier, repeat)
 
     def unprettify(self):
         result = {}
