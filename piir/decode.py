@@ -129,7 +129,7 @@ def decode_ppm(pulses, msb_first=False):
         return None
 
     codes = set()
-    for i in range(pre, len(pulses), 2):
+    for i in range(pre, len(pulses) - 1, 2):
         pair = pulses[i], pulses[i+1]
         codes.add(pair)
         if len(codes) >= 2:
