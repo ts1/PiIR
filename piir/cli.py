@@ -5,6 +5,7 @@ from .decode import decode
 from .util import hexify
 from .prettify import prettify
 from .remote import Remote
+from . import __version__
 
 def do_receive(args):
     return receive(args.gpio, glitch=args.glitch, timeout=args.timeout)
@@ -93,45 +94,42 @@ def main():
         '-g',
         '--gpio',
         help = 'GPIO to use',
-        metavar = 'N',
         type = int,
         required = True,
     )
 
     decode_parser = ArgumentParser(add_help=False)
     decode_parser.add_argument(
+        '-G',
         '--glitch',
-        help = 'Ignore glitch shorter than N microseconds (default 100)',
-        metavar = 'N',
-        type = int,
-        default = 100,
-    )
-    decode_parser.add_argument(
-        '--timeout',
-        help = 'Timeout after N milliseconds of silence (default 100)',
-        metavar = 'N',
+        help = 'Ignore glitch shorter than GLITCH microseconds (default 100)',
         type = int,
         default = 100,
     )
     decode_parser.add_argument(
         '-t',
+        '--timeout',
+        help = 'Finish receiving after TIMEOUT milliseconds of silence (default 100)',
+        type = int,
+        default = 100,
+    )
+    decode_parser.add_argument(
+        '-T',
         '--tolerance',
         help = 'Timing tolerance for decoding (default 0.2)',
-        metavar = 'F',
         type = float,
         default = .2,
     )
     decode_parser.add_argument(
         '--gap',
         help = 'Minimum gap between data in milliseconds (default 15)',
-        metavar = 'N',
         type = int,
         default = 15,
     )
     decode_parser.add_argument(
+        '-p',
         '--pulses',
-        help = 'Ignore signal with number of pulses less than N (default 10)',
-        metavar = 'N',
+        help = 'Ignore signal with less than PULSES pulses (default 10)',
         type = int,
         default = 10,
     )
@@ -149,6 +147,13 @@ def main():
     )
     root_parser.set_defaults(func=None)
     subparsers = root_parser.add_subparsers(title='Sub commands')
+    root_parser.add_argument(
+        '-V',
+        '--version',
+        action='version',
+        version=f'%(prog)s {__version__}',
+    )
+
 
     record_parser = subparsers.add_parser(
         'record',
@@ -165,7 +170,6 @@ def main():
     record_parser.add_argument(
         '-c',
         '--carrier',
-        metavar = 'F',
         type = float,
         default = 38,
         help = 'Frequency of carrier wave in KHz (default 38). '
@@ -201,7 +205,6 @@ def main():
     play_parser.add_argument(
         '-d',
         '--duty-cycle',
-        metavar = 'F',
         type = float,
         default = 1/2,
         help = 'Duty cycle of carrier wave (default 0.5)',
