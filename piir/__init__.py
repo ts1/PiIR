@@ -1,5 +1,4 @@
-__version__ = '0.2.0'
-
+from .version import __version__
 from .io import receive, send
 from .decode import decode
 from .encode import encode

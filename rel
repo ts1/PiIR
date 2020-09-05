@@ -1,0 +1,19 @@
+#!/bin/bash
+set -eo pipefail
+
+if [ ! "$1" ]; then
+  echo "Usage $0 VERSION"
+  exit 1
+fi
+
+if ! git diff --quiet; then
+  echo "Not clean"
+  exit 1
+fi
+
+echo "__version__ = '$1'" > piir/version.py
+
+python3 setup.py test || exit 1
+
+git commit piir/version.py -m v$1
+git tag v$1
