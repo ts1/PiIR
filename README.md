@@ -42,6 +42,13 @@ piir record --gpio 22 --file light.json
 ```
 
 This asks key names on your remote and to press the keys.
+
+Alternatively you can give key names in the command-line like this:
+
+```sh
+piir record --gpio 22 --file light.json on off cool warm bright dark full night
+```
+
 The resulted data is saved to `light.json`.
 The file will look like this:
 
@@ -160,7 +167,7 @@ TODO: write more
 ![Photo](https://raw.githubusercontent.com/ts1/PiIR/master/img/photo.jpeg)
 
 I'm using Raspberry Pi Zero WH with four IR LEDs.
-Each LED has a measured current of 120mA, switched by a transitor connected to GPIO 17.
+Each LED is driven by a transistor connected to GPIO 17 at a measured current of 120mA.
 
 On an unrelated note, the big gold thing is a carbon dioxide sensor.
 
