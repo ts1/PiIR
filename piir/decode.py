@@ -65,6 +65,8 @@ def try_to_quantize(parts, tolerance, timebase, deviation, strict):
                 pulse -= deviation
             f = pulse / timebase
             n = int(round(f))
+            if n <= 0:
+                return None
             e = abs(f - n)
             if strict:
                 if e > tolerance:

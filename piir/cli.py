@@ -1,4 +1,4 @@
-import json, os
+import json, os, sys
 from argparse import ArgumentParser
 from .io import receive
 from .decode import decode
@@ -6,6 +6,11 @@ from .util import hexify
 from .prettify import prettify
 from .remote import Remote
 from . import __version__
+
+def bytes_to_hex(x):
+    if isinstance(x, bytes):
+        return hexify(x)
+    raise TypeError
 
 def do_receive(args):
     return receive(args.gpio, glitch=args.glitch, timeout=args.timeout)
@@ -20,11 +25,6 @@ def receive_and_decode(args):
         )
         if data:
             return data
-
-def bytes_to_hex(x):
-    if isinstance(x, bytes):
-        return hexify(x)
-    raise TypeError
 
 def record_key(args, name):
     print(f'Press the key named "{name}".')
@@ -129,7 +129,7 @@ def main():
     decode_parser.add_argument(
         '-p',
         '--pulses',
-        help = 'Ignore signal with less than PULSES pulses (default 10)',
+        help = 'Ignore signal with less than PULSES pulses (>=3, default 10)',
         type = int,
         default = 10,
     )
@@ -235,6 +235,11 @@ def main():
     if args.func is None:
         root_parser.print_help()
         exit(1)
+
+    if getattr(args, 'pulses', 10) < 3:
+        print(f'PULSES must be >= 3', file=sys.stderr)
+        exit(1)
+
     args.func(args)
 
 if __name__ == '__main__':
