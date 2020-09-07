@@ -1,3 +1,6 @@
+from threading import Lock
+from functools import wraps
+
 def reverse_bits(byte):
     return int(f'{byte:08b}'[::-1], 2)
 
@@ -36,3 +39,10 @@ def bytes_to_bits(data, format, bits=None):
 def hexify(data):
     return ' '.join(f'{byte:02X}' for byte in data)
 
+def synchronized(fn):
+    lock = Lock()
+    @wraps(fn)
+    def wrapper(*args, **kws):
+        with lock:
+            return fn(*args, **kws)
+    return wrapper

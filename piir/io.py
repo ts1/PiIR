@@ -1,5 +1,6 @@
 from time import sleep, time
 import pigpio
+from .util import synchronized
 
 def receive(gpio, glitch=100, timeout=200):
     last_tick = 0
@@ -43,6 +44,7 @@ def receive(gpio, glitch=100, timeout=200):
 
     return pulses
 
+@synchronized
 def send(
     gpio,
     pulses,
