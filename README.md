@@ -1,5 +1,6 @@
 # PiIR
 
+[![PyPI version](https://badge.fury.io/py/PiIR.svg)](https://badge.fury.io/py/PiIR)
 ![CI](https://github.com/ts1/PiIR/workflows/CI/badge.svg)
 
 IR remote control for Raspberry Pi.
