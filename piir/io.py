@@ -90,6 +90,9 @@ def send(
     if len(pulses) & 1:
         pulses = pulses + [0]
 
+    if repeat > 1:
+        pulses[-1] += gap
+
     for i in range(0, len(pulses), 2):
         mark = pulses[i]
         space = pulses[i + 1]
@@ -103,15 +106,10 @@ def send(
             wave_ids[(mark, space)] = wave_id
         chain.append(wave_id)
 
-    n = 0
-    while True:
+    for i in range(repeat):
         pi.wave_chain(chain)
         while pi.wave_tx_busy():
             sleep(0.001)
-        n += 1
-        if n >= repeat:
-            break
-        sleep(gap * 1e-6)
 
     pi.wave_clear()
     pi.stop()
