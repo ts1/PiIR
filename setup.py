@@ -14,7 +14,7 @@ setup(
     python_requires = '>= 3.6',
     url = 'https://github.com/ts1/PiIR',
     license = 'MIT',
-    packages = ['piir'],
+    packages = ['piir', 'piir.remotes'],
     entry_points = {
         'console_scripts': ['piir=piir.cli:main'],
     },
