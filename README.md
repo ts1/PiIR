@@ -44,6 +44,17 @@ piir record --gpio 22 --file light.json
 
 This asks key names on your remote and to press the keys.
 
+```
+Name of the key (blank to finish): on
+Press the key named "on".
+Press the same key again to verify.
+Name of the key (blank to finish): off
+Press the key named "off".
+Press the same key again to verify.
+Name of the key (blank to finish):
+Saved to "light.json".
+```
+
 Alternatively you can give key names in the command-line like this:
 
 ```sh
@@ -160,8 +171,6 @@ or
 ```python
 remote.send_data(bytes([0x09, 0x2E, 0x27]))
 ```
-
-TODO: write more
 
 ## Hardware
 
