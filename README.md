@@ -179,7 +179,7 @@ remote.send_data(bytes([0x09, 0x2E, 0x27]))
 ### Recording
 
 ```python
-from piir.io import decode
+from piir.io import receive
 from piir.decode import decode
 
 keys = {}
