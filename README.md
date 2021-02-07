@@ -151,6 +151,8 @@ For more options try `-h`.
 
 ## API
 
+### Sending
+
 To send an IR signal recorded in a file:
 
 ```python
@@ -159,6 +161,8 @@ import piir
 remote = piir.Remote('light.json', 17)
 remote.send('off')
 ```
+
+The first argument of `Remote` can be a content of JSON instead of a file name.
 
 You can also send arbitrary data like this:
 
@@ -171,6 +175,66 @@ or
 ```python
 remote.send_data(bytes([0x09, 0x2E, 0x27]))
 ```
+
+### Recording
+
+```python
+from piir.io import decode
+from piir.decode import decode
+
+keys = {}
+
+while True:
+    data = decode(receive(22))
+    if data:
+        break
+keys['keyname'] = data
+```
+
+`receive` returns raw pulses as a `list`.
+It may be noise and other meaningless pulses.
+`decode` tries to decode it as remote data and returns a `dict` if successful, otherwise returns `None`.
+
+When you recorded enough key data, you can call `prettify` to consolidate them into a JSON data that can be fed to `Remote`.
+
+```python
+from piir.prettify import prettify
+import json
+
+print(json.dumps(prettify(keys), indent=2))
+```
+
+```json
+{
+  "format": {
+    "preamble": [
+      16,
+      8
+    ],
+    "coding": "ppm",
+    "zero": [
+      1,
+      1
+    ],
+    "one": [
+      1,
+      3
+    ],
+    "postamble": [
+      1
+    ],
+    "byte_by_byte_complement": true,
+    "timebase": 560,
+    "gap": 76000,
+    "carrier": 38000
+  },
+  "keys": {
+    "keyname": "80 12"
+  }
+}
+```
+
+For more information, consult [piir/cli.py](https://github.com/ts1/PiIR/blob/master/piir/cli.py).
 
 ## Hardware
 
