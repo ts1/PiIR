@@ -38,6 +38,8 @@ def record_key(args, name):
         data3 = receive_and_decode(args)
         if data3 == data1 or data3 == data2:
             return data3
+        data1 = data2
+        data2 = data3
 
 def record(args):
     keys = {}
