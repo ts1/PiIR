@@ -67,7 +67,7 @@ class Remote:
         return pulses, gap, carrier
 
     def send_pulses(self, pulses, gap, carrier, repeat):
-        t = gap / 1e6 - (time() - self.last_sent)
+        t = (gap or 50_000) / 1e6 - (time() - self.last_sent)
         if t > 0:
             sleep(t)
         self.last_sent = time()
